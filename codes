@@ -1,0 +1,48 @@
+!pip install pandas
+!pip install numpy
+!pip install matplotlib
+!pip install seaborn
+# Importing required libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import random
+# Setting a random seed for reproducibility
+random.seed(42)
+# Simulating a dataset
+categories = ['Health', 'Food', 'Fitness', 'Tech', 'Beauty', 'Family']
+data = {
+    'tweet_id': range(1, 101),
+    'category': [random.choice(categories) for _ in range(100)],
+    'likes': [random.randint(0, 1000) for _ in range(100)],
+    'content': [f"This is a sample tweet content about {random.choice(categories)}." for _ in range(100)]
+}
+# Creating a DataFrame
+df = pd.DataFrame(data)
+# Displaying the first few rows of the DataFrame
+df.head()
+# Checking for missing values
+print(df.isnull().sum())
+# Data type information
+print(df.dtypes)
+# Summary statistics of likes by category
+category_summary = df.groupby('category')['likes'].describe()
+print(category_summary)
+# Boxplot for likes distribution by category
+plt.figure(figsize=(12, 6))
+sns.boxplot(x='category', y='likes', data=df)
+plt.title('Likes Distribution by Category')
+plt.xlabel('Category')
+plt.ylabel('Number of Likes')
+plt.xticks(rotation=45)
+plt.show()
+# Bar chart for average likes per category
+avg_likes = df.groupby('category')['likes'].mean().reset_index()
+plt.figure(figsize=(12, 6))
+sns.barplot(x='category', y='likes', data=avg_likes, palette='viridis')
+plt.title('Average Likes per Category')
+plt.xlabel('Category')
+plt.ylabel('Average Likes')
+plt.xticks(rotation=45)
+plt.show()
